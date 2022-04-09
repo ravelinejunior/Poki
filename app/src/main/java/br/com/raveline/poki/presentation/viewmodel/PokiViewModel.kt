@@ -1,6 +1,7 @@
 package br.com.raveline.poki.presentation.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,15 +43,16 @@ class PokiViewModel @Inject constructor(
                 if (pokiResponse.isSuccessful) {
                     val body = pokiResponse.body()
                     body?.let { _pokemons ->
-                        mutablePokiList.postValue(_pokemons)
+                        mutablePokiList.value = _pokemons
                         _pokemons.results.forEach { result ->
                             val pokemonResponse = repository.getPokemonById(result.url.decodeURL())
                             if (pokemonResponse.isSuccessful) {
                                 val pokemon = pokemonResponse.body()
                                 pokemon?.let { _pokemon ->
-                                    mutablePokemon.postValue(_pokemon)
+                                    mutablePokemon.value = _pokemon
                                 }
                                 _uiStateFlow.value = UiState.Success
+                                Log.d("TAGPokemon", pokemonLiveData.value.toString()+"\n\n" )
                             } else {
                                 _uiStateFlow.value = UiState.Error
                             }
