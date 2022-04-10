@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Poki</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Title</string>
+    <string name="action_1">Action 1</string>
+    <string name="action_2">Action 2</string>
+    <string name="class_doesnt_match_msg">Class doesn\'t match!</string>
 </resources>

@@ -1,26 +1,30 @@
-package br.com.raveline.poki
+package br.com.raveline.poki.presentation.activity
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import br.com.raveline.poki.R
 import br.com.raveline.poki.databinding.ActivityMainBinding
-import br.com.raveline.poki.presentation.viewmodel.PokiViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
-    private val pokiViewModel: PokiViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setContentView(mainBinding.root)
 
-        lifecycleScope.launchWhenStarted {
-            pokiViewModel.getPokemon()
-        }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerViewMain) as NavHostFragment
+        navController = navHostFragment.navController
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

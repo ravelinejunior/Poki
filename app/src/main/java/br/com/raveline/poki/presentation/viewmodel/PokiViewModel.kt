@@ -33,7 +33,13 @@ class PokiViewModel @Inject constructor(
     private val mutablePokemon = MutableLiveData<Pokemon>()
     val pokemonLiveData: LiveData<Pokemon> get() = mutablePokemon
 
-    suspend fun getPokemon() {
+    val pokemons = arrayListOf<Pokemon>()
+
+    init {
+        getPokemon()
+    }
+
+    private fun getPokemon() {
         _uiStateFlow.value = UiState.Loading
 
         viewModelScope.launch {
@@ -48,16 +54,14 @@ class PokiViewModel @Inject constructor(
                             val pokemonResponse = repository.getPokemonById(result.url.decodeURL())
                             if (pokemonResponse.isSuccessful) {
                                 val pokemon = pokemonResponse.body()
-                                pokemon?.let { _pokemon ->
-                                    mutablePokemon.value = _pokemon
-                                }
-                                _uiStateFlow.value = UiState.Success
+                                pokemons.add(pokemon!!)
                                 Log.d("TAGPokemon", pokemonLiveData.value.toString()+"\n\n" )
                             } else {
                                 _uiStateFlow.value = UiState.Error
                             }
                         }
                     }
+                    _uiStateFlow.value = UiState.Success
                 } else {
                     _uiStateFlow.value = UiState.Error
                 }
