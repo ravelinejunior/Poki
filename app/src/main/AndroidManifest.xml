@@ -18,6 +18,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.activity.SplashScreenActivity"
+            android:theme="@style/Theme.Poki.Custom_NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

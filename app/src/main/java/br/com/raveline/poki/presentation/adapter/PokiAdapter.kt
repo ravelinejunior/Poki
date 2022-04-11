@@ -2,15 +2,21 @@ package br.com.raveline.poki.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.raveline.poki.data.model.Pokemon
 import br.com.raveline.poki.databinding.PokiItemAdapterBinding
+import br.com.raveline.poki.presentation.fragment.MainFragment
+import br.com.raveline.poki.presentation.fragment.MainFragmentDirections
 import br.com.raveline.poki.utils.ListDiffUtil
 import br.com.raveline.poki.utils.SystemFunctions.loadImage
 import java.util.*
 
-class PokiAdapter : RecyclerView.Adapter<PokiAdapter.MyViewHolder>() {
+class PokiAdapter(
+    private val fragment: Fragment
+) : RecyclerView.Adapter<PokiAdapter.MyViewHolder>() {
 
     private var pokemons = emptyList<Pokemon>()
 
@@ -24,6 +30,15 @@ class PokiAdapter : RecyclerView.Adapter<PokiAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val pokemon = pokemons[position]
         holder.bind(pokemon)
+
+        holder.itemView.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToDetailFragment(pokemon)
+            when (fragment) {
+                is MainFragment -> {
+                    fragment.findNavController().navigate(action)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int = pokemons.size

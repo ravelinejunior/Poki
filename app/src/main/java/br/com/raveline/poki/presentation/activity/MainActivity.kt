@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import br.com.raveline.poki.R
 import br.com.raveline.poki.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerViewMain) as NavHostFragment
         navController = navHostFragment.navController
+        setupActionBarWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

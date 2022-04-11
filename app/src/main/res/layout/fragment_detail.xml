@@ -3,18 +3,189 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="pokemon"
+            type="br.com.raveline.poki.data.model.Pokemon" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewDetailFragmentId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragment.DetailFragment">
+        android:background="@color/primaryColor"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".presentation.fragment.DetailFragment">
 
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Detail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                android:id="@+id/frameLayoutDetailFragmentId"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_240sdp"
+                android:layout_alignParentTop="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageViewDetailFragmentSavedId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_pets_24" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutDetailFragmentId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:background="@drawable/favorite_button_background">
+
+                    <ImageView
+                        android:id="@+id/imageViewDetailFragmentFavoriteId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_favorite_border_24" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textViewTitleDetailFragmentId"
+                style="@style/Theme.Custom_Title_Font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:text="@string/title"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayoutDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textViewHeightDetailFragmentId"
+                style="@style/Theme.Custom_Font_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitleDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textViewWeightDetailFragmentId"
+                style="@style/Theme.Custom_Font_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHeightDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textViewBaseExpDetailFragmentId"
+                style="@style/Theme.Custom_Font_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/base_experience"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWeightDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textViewSpecieDetailFragmentId"
+                style="@style/Theme.Custom_Font_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@{pokemon.species.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBaseExpDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textViewOrderDetailFragmentId"
+                style="@style/Theme.Custom_Font_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSpecieDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/Theme.Custom_Font_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewHeightDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/Theme.Custom_Font_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/weight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewWeightDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textView9"
+                style="@style/Theme.Custom_Font_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/base_experience"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewBaseExpDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textView10"
+                style="@style/Theme.Custom_Font_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/specie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewSpecieDetailFragmentId" />
+
+            <TextView
+                android:id="@+id/textView11"
+                style="@style/Theme.Custom_Font_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:background="@drawable/text_detail_background"
+                android:text="@string/order"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewOrderDetailFragmentId" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

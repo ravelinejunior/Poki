@@ -13,4 +13,27 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/primaryColor</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.Poki.Custom_NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="Theme.Custom_Title_Font" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:textSize">@dimen/_28sdp</item>
+    </style>
+
+    <style name="Theme.Custom_Font_Bold" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/_8sdp</item>
+    </style>
+
+    <style name="Theme.Custom_Font_Medium" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="android:padding">@dimen/_8sdp</item>
+    </style>
 </resources>

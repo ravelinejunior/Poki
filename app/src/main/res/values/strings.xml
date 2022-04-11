@@ -7,4 +7,9 @@
     <string name="action_2">Action 2</string>
     <string name="class_doesnt_match_msg">Class doesn\'t match!</string>
     <string name="pokiapp">PokiApp</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="base_experience">Base Experience</string>
+    <string name="specie">Specie</string>
+    <string name="order">Order</string>
 </resources>

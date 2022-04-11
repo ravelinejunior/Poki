@@ -27,11 +27,9 @@ class MainFragment : Fragment() {
 
     private lateinit var mainBinding: FragmentMainBinding
     private lateinit var scrollListener: RecyclerView.OnScrollListener
-    private var lastVisibleItemPosition: Int = 0
-
 
     private val pokiAdapter: PokiAdapter by lazy {
-        PokiAdapter()
+        PokiAdapter(this)
     }
 
     @Inject
@@ -50,7 +48,6 @@ class MainFragment : Fragment() {
         setupRecyclerView()
         findNavController().navigateUp()
 
-
         return mainBinding.root
     }
 
@@ -66,7 +63,6 @@ class MainFragment : Fragment() {
             setHasFixedSize(true)
             setHasTransientState(true)
             layoutManager = GridLayoutManager(context, 2)
-            // layoutManager = LinearLayoutManager(context)
             adapter = pokiAdapter
         }
     }
@@ -117,6 +113,7 @@ class MainFragment : Fragment() {
                         }
                     }
                     UiState.NoConnection -> {
+                        mainBinding.progressBarMainFragmentId.visibility = GONE
                         if (pokiViewModel.pokemons.isEmpty()) {
                             mainBinding.apply {
                                 recyclerViewMainFragmentId.visibility = GONE
