@@ -11,11 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.raveline.poki.databinding.FragmentMainBinding
 import br.com.raveline.poki.presentation.adapter.PokiAdapter
 import br.com.raveline.poki.presentation.viewmodel.PokiViewModel
 import br.com.raveline.poki.presentation.viewmodel.PokiViewModelFactory
 import br.com.raveline.poki.presentation.viewmodel.UiState
+import br.com.raveline.poki.utils.DEFAULT_OFFSET_PAGE
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,6 +25,9 @@ import javax.inject.Inject
 class MainFragment : Fragment() {
 
     private lateinit var mainBinding: FragmentMainBinding
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private var lastVisibleItemPosition: Int = 0
+
 
     private val pokiAdapter: PokiAdapter by lazy {
         PokiAdapter()
@@ -52,15 +57,35 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setObservables()
+        verifyLastData()
     }
 
     private fun setupRecyclerView() {
         mainBinding.recyclerViewDetailFragment.apply {
             setHasFixedSize(true)
+            setHasTransientState(true)
             layoutManager = GridLayoutManager(context, 2)
             // layoutManager = LinearLayoutManager(context)
             adapter = pokiAdapter
         }
+    }
+
+    private fun verifyLastData() {
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!mainBinding.recyclerViewDetailFragment.canScrollVertically(1)) {
+                    pokiViewModel.getPokemon(DEFAULT_OFFSET_PAGE)
+                }
+
+            }
+        }
+
+        mainBinding.recyclerViewDetailFragment.apply {
+            addOnScrollListener(scrollListener)
+        }
+
     }
 
     private fun setObservables() {
@@ -70,13 +95,14 @@ class MainFragment : Fragment() {
                     UiState.Initial,
                     UiState.Loading -> {
                         mainBinding.apply {
-                            recyclerViewDetailFragment.visibility = GONE
+
                             progressBarDetailFragment.visibility = VISIBLE
                         }
                     }
 
                     UiState.Success -> {
                         mainBinding.apply {
+                            recyclerViewDetailFragment.visibility = GONE
                             recyclerViewDetailFragment.visibility = VISIBLE
                             progressBarDetailFragment.visibility = GONE
                         }

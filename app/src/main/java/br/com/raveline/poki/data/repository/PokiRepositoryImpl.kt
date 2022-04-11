@@ -12,8 +12,8 @@ class PokiRepositoryImpl @Inject constructor(
 ) : PokiRepository {
 
     @WorkerThread
-    override suspend fun getPokemons(): Response<Pokemons> {
-        return apiServices.getPokemon()
+    override suspend fun getPokemons(offset:Int?,limit:Int?): Response<Pokemons> {
+        return apiServices.getPokemon(offset,limit)
     }
 
     @WorkerThread

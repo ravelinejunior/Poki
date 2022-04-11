@@ -8,10 +8,11 @@ import br.com.raveline.poki.data.model.Pokemon
 import br.com.raveline.poki.databinding.PokiItemAdapterBinding
 import br.com.raveline.poki.utils.ListDiffUtil
 import br.com.raveline.poki.utils.SystemFunctions.loadImage
+import java.util.*
 
 class PokiAdapter : RecyclerView.Adapter<PokiAdapter.MyViewHolder>() {
 
-    private var pokemons = arrayListOf<Pokemon>()
+    private var pokemons = emptyList<Pokemon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val pBinding =
@@ -40,7 +41,11 @@ class PokiAdapter : RecyclerView.Adapter<PokiAdapter.MyViewHolder>() {
 
         fun bind(_pokemon: Pokemon) {
             pBinding.apply {
-                textViewTitlePokiItemAdapterId.text = _pokemon.name.capitalize()
+                textViewTitlePokiItemAdapterId.text = _pokemon.name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }
 
                 loadImage(
                     imageViewPokiItemAdapterId,
