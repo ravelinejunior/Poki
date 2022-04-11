@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.com.raveline.poki.R
 import br.com.raveline.poki.databinding.FragmentMainBinding
 import br.com.raveline.poki.presentation.adapter.PokiAdapter
 import br.com.raveline.poki.presentation.viewmodel.PokiViewModel
@@ -61,7 +62,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        mainBinding.recyclerViewDetailFragment.apply {
+        mainBinding.recyclerViewMainFragmentId.apply {
             setHasFixedSize(true)
             setHasTransientState(true)
             layoutManager = GridLayoutManager(context, 2)
@@ -75,14 +76,14 @@ class MainFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if (!mainBinding.recyclerViewDetailFragment.canScrollVertically(1)) {
+                if (!mainBinding.recyclerViewMainFragmentId.canScrollVertically(1)) {
                     pokiViewModel.getPokemon(DEFAULT_OFFSET_PAGE)
                 }
 
             }
         }
 
-        mainBinding.recyclerViewDetailFragment.apply {
+        mainBinding.recyclerViewMainFragmentId.apply {
             addOnScrollListener(scrollListener)
         }
 
@@ -95,25 +96,38 @@ class MainFragment : Fragment() {
                     UiState.Initial,
                     UiState.Loading -> {
                         mainBinding.apply {
-
-                            progressBarDetailFragment.visibility = VISIBLE
+                            progressBarMainFragmentId.visibility = VISIBLE
                         }
                     }
 
                     UiState.Success -> {
                         mainBinding.apply {
-                            recyclerViewDetailFragment.visibility = GONE
-                            recyclerViewDetailFragment.visibility = VISIBLE
-                            progressBarDetailFragment.visibility = GONE
+                            recyclerViewMainFragmentId.visibility = GONE
+                            recyclerViewMainFragmentId.visibility = VISIBLE
+                            progressBarMainFragmentId.visibility = GONE
                         }
 
                         pokiAdapter.setData(pokiViewModel.pokemons)
                     }
                     UiState.Error -> {
-                        // TODO: Create lottie
+                        mainBinding.apply {
+                            recyclerViewMainFragmentId.visibility = GONE
+                            lottieViewMainFragmentId.visibility = VISIBLE
+                            progressBarMainFragmentId.visibility = GONE
+                        }
                     }
                     UiState.NoConnection -> {
-                        // TODO: Create lottie
+                        if (pokiViewModel.pokemons.isEmpty()) {
+                            mainBinding.apply {
+                                recyclerViewMainFragmentId.visibility = GONE
+                                progressBarMainFragmentId.visibility = GONE
+                                lottieViewMainFragmentId.apply {
+                                    visibility = VISIBLE
+                                    setAnimation(R.raw.no_internet_connection)
+                                    playAnimation()
+                                }
+                            }
+                        }
                     }
                 }
             }
