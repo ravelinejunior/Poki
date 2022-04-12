@@ -1,7 +1,9 @@
 package br.com.raveline.poki.domain.di
 
+import br.com.raveline.poki.data.network.PokiApiPostServices
 import br.com.raveline.poki.data.network.PokiApiServices
 import br.com.raveline.poki.utils.BASE_URL
+import br.com.raveline.poki.utils.POST_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,13 +34,23 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesPokiApi() = Retrofit.Builder()
+    fun providesPokiApi(): PokiApiServices = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpInterceptor)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
         .create(PokiApiServices::class.java)
+
+    @Singleton
+    @Provides
+    fun providesPokiApiPost(): PokiApiPostServices = Retrofit.Builder()
+        .baseUrl(POST_URL)
+        .client(okHttpInterceptor)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+        .build()
+        .create(PokiApiPostServices::class.java)
 
 
 }

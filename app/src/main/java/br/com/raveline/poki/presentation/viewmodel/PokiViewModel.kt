@@ -1,12 +1,16 @@
 package br.com.raveline.poki.presentation.viewmodel
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raveline.poki.data.model.Pokemon
 import br.com.raveline.poki.data.repository.PokiRepositoryImpl
+import br.com.raveline.poki.data.request.PokeRequest
+import br.com.raveline.poki.data.request.PokeResponse
 import br.com.raveline.poki.utils.SystemFunctions
 import br.com.raveline.poki.utils.SystemFunctions.decodeURL
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +30,10 @@ class PokiViewModel @Inject constructor(
     val uiStateFlow: StateFlow<UiState> get() = _uiStateFlow
 
     private val mutablePage = MutableLiveData(0)
-    val pageLiveData: LiveData<Int> get() = mutablePage
+    private val pageLiveData: LiveData<Int> get() = mutablePage
+
+    private val mutablePokemonResponse = MutableLiveData<PokeResponse>()
+    val pokeResponse: LiveData<PokeResponse> get() = mutablePokemonResponse
 
     val pokemons = arrayListOf<Pokemon>()
 
@@ -67,15 +74,18 @@ class PokiViewModel @Inject constructor(
             if (pokiResponse.isSuccessful) {
                 val body = pokiResponse.body()
                 body?.let { _pokemons ->
-                    _pokemons.results.forEach { result ->
-                        val pokemonResponse = repository.getPokemonById(result.url.decodeURL())
-                        if (pokemonResponse.isSuccessful) {
-                            val pokemon = pokemonResponse.body()
-                            pokemons.add(pokemon!!)
-                        } else {
-                            _uiStateFlow.value = UiState.Error
+                    if (_pokemons.count > pageLiveData.value!!) {
+                        _pokemons.results.forEach { result ->
+                            val pokemonResponse = repository.getPokemonById(result.url.decodeURL())
+                            if (pokemonResponse.isSuccessful) {
+                                val pokemon = pokemonResponse.body()
+                                pokemons.add(pokemon!!)
+                            } else {
+                                _uiStateFlow.value = UiState.Error
+                            }
                         }
                     }
+
                 }
                 _uiStateFlow.value = UiState.Success
             } else {
@@ -83,6 +93,21 @@ class PokiViewModel @Inject constructor(
             }
         }
     }
+
+    fun postPokemon(pokemon: Pokemon) {
+        val pokeRequest = PokeRequest()
+        viewModelScope.launch {
+            val response = repository.postPokemon(pokeRequest)
+            if (response.isSuccessful) {
+                mutablePokemonResponse.value = response.body()
+                Log.e("TAGPostPokemon", pokemon.toString())
+            } else {
+                Log.e("TAGPostPokemon", response.message())
+                Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
 }
 
