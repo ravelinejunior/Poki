@@ -31,5 +31,4 @@ task clean(type: Delete) {
 ext {
     activityVersion = '1.3.0-beta01'
     appCompatVersion = '1.2.0'
-    roomVersion = '2.3.0'
 }

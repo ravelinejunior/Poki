@@ -20,29 +20,6 @@ import com.bumptech.glide.request.RequestOptions
 
 object SystemFunctions {
 
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-        observe(lifecycleOwner, object : Observer<T> {
-            override fun onChanged(t: T) {
-                removeObserver(this)
-                observer.onChanged(t)
-            }
-        })
-    }
-
-    fun Fragment.hideKeyboard() {
-        view?.let { activity?.hideKeyboard(it) }
-    }
-
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager =
-            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
     fun getProgressDrawable(context: Context): CircularProgressDrawable {
         return CircularProgressDrawable(context).apply {
             strokeWidth = 10f
@@ -91,7 +68,7 @@ object SystemFunctions {
     }
 
     fun String.decodeURL(): Int {
-        return this.split("/").filter { it.isNotEmpty()}.let { it[it.size - 1].toInt() }
+        return this.split("/").filter { it.isNotEmpty() }.let { it[it.size - 1].toInt() }
     }
 
 }
